@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Opsi Spam</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'JetBrains Mono',monospace;
+  background:
+    radial-gradient(circle at 25% 25%, #26003f, transparent 45%),
+    radial-gradient(circle at 75% 75%, #003344, transparent 50%),
+    linear-gradient(120deg,#02010a,#000014,#02010a);
+  color:#00ffff;
+  overflow-x:hidden;
+  padding:20px;
+}
+
+/* Judul */
+.title-top{
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  text-shadow:0 0 8px #00ffff,0 0 16px #00ffff;
+  animation:neonFlicker 2.5s infinite;
+}
+@keyframes neonFlicker{
+  0%,100%{opacity:1;color:#00ffff}
+  25%{opacity:.6;color:#ff00ff}
+  50%{opacity:1;color:#00ff00}
+  75%{opacity:.7;color:#ff0055}
+}
+
+.typing-text{
+  text-align:center;
+  margin:12px 0;
+  font-family:'Orbitron',sans-serif;
+  font-size:14px;
+  min-height:20px;
+  color:#00ffff;
+}
+
+/* Kotak input RPG neon */
+.rpg-box{
+  border:2px solid #00ffff;
+  border-radius:8px;
+  padding:6px 10px;
+  margin:10px 0;
+  color:#00ffff;
+  background:#02010a;
+  box-shadow:0 0 10px #00ffff, inset 0 0 6px #00ffff;
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* Horizontal select */
+.rpg-select{
+  width:100%;
+  padding:6px;
+  border-radius:6px;
+  border:2px solid #00ffff;
+  background:#02010a;
+  color:#00ffff;
+  font-family:'JetBrains Mono',monospace;
+  box-shadow:0 0 10px #00ffff, inset 0 0 6px #00ffff;
+  margin-bottom:10px;
+}
+
+/* Send button */
+.send-btn{
+  background:#02010a;
+  border:2px solid #00ffff;
+  border-radius:6px;
+  padding:8px 12px;
+  color:#00ffff;
+  font-family:'Orbitron',sans-serif;
+  cursor:pointer;
+  text-shadow:0 0 6px #00ffff,0 0 12px #00ffff;
+  animation:btnNeon 2s infinite;
+}
+
+/* Error message */
+.error-msg{
+  font-size:12px;
+  color:#ff3333;
+  margin-top:6px;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="title-top">Banding WhatsApp</div>
+
+<div class="typing-text" id="typingText"></div>
+
+<div>
+  <div class="rpg-box">&gt;_ No - Whatsapp</div>
+  <input class="rpg-box" type="text" id="waNumber" placeholder="+62****">
+
+  <div class="rpg-box">&gt;_ Opsi - Band</div>
+  <select class="rpg-select" id="bandOption" onchange="updateSubOption()">
+    <option value="">Pilih opsi</option>
+    <option value="spam">Opsi - Spam</option>
+    <option value="permanen">Opsi - Permanen</option>
+    <option value="hard">Opsi - Permanen Hard</option>
+  </select>
+
+  <select class="rpg-select" id="subOption">
+    <option value="">Sub opsi akan muncul disini</option>
+  </select>
+
+  <button class="send-btn" onclick="sendBanding()">Send - Banding</button>
+  <div class="error-msg" id="errorMsg"></div>
+</div>
+
+<script>
+/* Typing Text */
+const texts=["unband-Wa","mt 2026","help wa"];
+let index=0, charIndex=0;
+const typingText=document.getElementById('typingText');
+
+function type(){
+  if(charIndex<texts[index].length){
+    typingText.textContent+=texts[index][charIndex];
+    charIndex++;
+    setTimeout(type,150);
+  }else{
+    setTimeout(erase,1000);
+  }
+}
+function erase(){
+  if(charIndex>0){
+    typingText.textContent=texts[index].substring(0,charIndex-1);
+    charIndex--;
+    setTimeout(erase,100);
+  }else{
+    index=(index+1)%texts.length;
+    setTimeout(type,500);
+  }
+}
+type();
+
+/* Sub Option Update */
+function updateSubOption(){
+  const band=document.getElementById('bandOption').value;
+  const sub=document.getElementById('subOption');
+  sub.innerHTML="";
+  if(band==="spam"){
+    ["opsi - spam - 1","opsi - spam - 2","opsi - spam - 3"].forEach(o=>{let e=document.createElement('option');e.value=o;e.text=o;sub.add(e);});
+  }else if(band==="permanen"){
+    ["opsi - perma - 1","opsi - perma - 2","opsi - perma - 3"].forEach(o=>{let e=document.createElement('option');e.value=o;e.text=o;sub.add(e);});
+  }else if(band==="hard"){
+    ["opsi - hard - perma - 1","opsi - hard - perma - 2","opsi - hard - perma - 3","opsi - hard - perma - 4"].forEach(o=>{let e=document.createElement('option');e.value=o;e.text=o;sub.add(e);});
+  }else{
+    let e=document.createElement('option'); e.value=""; e.text="Sub opsi akan muncul disini"; sub.add(e);
+  }
+}
+
+/* Send Banding */
+function sendBanding(){
+  const wa=document.getElementById('waNumber').value.trim();
+  const band=document.getElementById('bandOption').value;
+  const sub=document.getElementById('subOption').value;
+  const err=document.getElementById('errorMsg');
+  if(!wa && !band){err.textContent="haduh isi no & pilih opsi bujang"; return;}
+  if(!wa){err.textContent="isi nomor dulu deck"; return;}
+  if(!band){err.textContent="isi opsi tuh oyy"; return;}
+  err.textContent="";
+
+  let email="", body="";
+  if(sub==="opsi - spam - 1"){
+    email="support@support.whatsapp.com";
+    body=`whatsapp support team, I want to appeal against the blocking of my whatsapp account number due to spam. I want the whatsapp support team to re-check my number [${wa}] because I have never felt like I have committed any violations made by whatsapp. I am sure this is just a mistake in blocking. I want my whatsapp account to restored as soon as possible, thank you.`;
+  }else if(sub==="opsi - spam - 2"){
+    email="support@support.whatsapp.com";
+    body=`Привет, добрый день, WhatsApp, моя учетная запись WhatsApp была заблокирована вами, и я не могу получить доступ к своей учетной записи WhatsApp. Я не понимаю, почему мою учетную запись WhatsApp часто временно блокируют.Пожалуйста, помогите немедленно разблокировать мою учетную запись WhatsApp. Спасибо [${wa}]`;
+  }else if(sub==="opsi - spam - 3"){
+    email="support@support.whatsapp.com";
+    body=`Good afternoon Mark Zuckerberg, I would like to ask for help from the esteemed WhatsApp Business team. I accidentally spammed someone else and my WhatsApp account was blocked. (https://faq.whatsapp.com/1848531392146538/?helpref=hc_fnav)My funds want to file a complaint for the removal of the blocking of my WhatsApp account as soon as possible and the honorable also for Please help me restore my WhatsApp account as soon as possible with my WhatsApp account number. (${wa})`;
+  }else{
+    alert("Sub opsi belum dipilih atau belum tersedia");
+    return;
+  }
+  window.location.href=`mailto:${email}?subject=Banding WhatsApp&body=${encodeURIComponent(body)}`;
+}
+</script>
+
+</body>
+</html>
