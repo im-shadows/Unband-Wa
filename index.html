@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>System Boot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top,#111 0%,#000 70%);
+  color:#0ff;
+  font-family:'Share Tech Mono',monospace;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+h1{
+  font-family:'Orbitron',sans-serif;
+  text-shadow:0 0 12px #0ff;
+}
+.typing{color:#aaa;font-size:14px;min-height:18px}
+.progress-bar{
+  width:320px;height:10px;
+  border:1px solid #0ff;
+  margin:15px auto;
+}
+.progress{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#0ff,#08f);
+  box-shadow:0 0 10px #0ff;
+}
+.status{font-size:13px;color:#aaa}
+</style>
+</head>
+
+<body>
+<div>
+  <h1>Menghubungkan Server Web</h1>
+  <div id="typing" class="typing"></div>
+
+  <div class="progress-bar">
+    <div id="bar" class="progress"></div>
+  </div>
+
+  <div id="percent" class="status">0% • inisialisasi sistem</div>
+</div>
+
+<script>
+const texts=[
+  'memuat data...',
+  'sinkronisasi modul...',
+  'menghubungkan node...',
+  'menyiapkan sistem...'
+];
+
+let t=0,c=0,p=0;
+
+setInterval(()=>{
+  let txt=texts[t];
+  if(c<=txt.length){
+    typing.textContent=txt.slice(0,c++);
+  }else{
+    c=0;t=(t+1)%texts.length;
+  }
+},100);
+
+const load=setInterval(()=>{
+  p++;
+  bar.style.width=p+'%';
+  percent.textContent=p+'% • inisialisasi sistem';
+
+  if(p>=100){
+    clearInterval(load);
+    setTimeout(()=>location.href='access.html',800);
+  }
+},80);
+</script>
+</body>
+</html>
