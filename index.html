@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Cyber Boot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Share Tech Mono',monospace;
+  overflow:hidden;
+}
+
+/* ===== OVAL PANEL ===== */
+.panel{
+  position:relative;
+  width:460px;
+  padding:38px 42px;
+  background:rgba(0,0,0,.7);
+  border-radius:120px;
+  z-index:1;
+}
+
+/* ===== ROTATING NEON BORDER (ONLY EDGE) ===== */
+.panel::before{
+  content:'';
+  position:absolute;
+  inset:-3px;
+  border-radius:130px;
+  background:conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #00ffff 60deg,
+    #ff00ff 120deg,
+    #00ff99 180deg,
+    transparent 240deg,
+    transparent 360deg
+  );
+  animation:spin 3.5s linear infinite;
+  filter:blur(1.5px);
+  z-index:-1;
+}
+
+/* MASK biar cuma pinggiran */
+.panel::after{
+  content:'';
+  position:absolute;
+  inset:2px;
+  border-radius:115px;
+  background:#000;
+  z-index:-1;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+/* ===== TITLE ===== */
+h1{
+  margin:0;
+  text-align:center;
+  font-family:'Orbitron',sans-serif;
+  font-size:20px;
+  letter-spacing:1px;
+  background:linear-gradient(90deg,#00ffff,#ff00ff,#00ff99);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:flicker 2.8s infinite;
+}
+
+@keyframes flicker{
+  0%,100%{opacity:1}
+  45%{opacity:.85}
+  48%{opacity:.6}
+  52%{opacity:.9}
+}
+
+/* ===== TYPING ===== */
+.typing{
+  text-align:center;
+  margin-top:10px;
+  font-size:14px;
+  color:#cfcfcf;
+  min-height:18px;
+}
+
+/* ===== PROGRESS BAR ===== */
+.bar{
+  margin:18px auto 8px;
+  width:100%;
+  height:8px;
+  background:#050505;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:inset 0 0 6px rgba(0,255,255,.3);
+}
+.fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#00ffff,#ff00ff,#00ff99);
+  box-shadow:0 0 18px #00ffff;
+}
+
+/* ===== STATUS ===== */
+.status{
+  text-align:center;
+  font-size:12px;
+  color:#9a9a9a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+  <h1>INITIALIZING CYBER SYSTEM</h1>
+
+  <div id="typing" class="typing"></div>
+
+  <div class="bar">
+    <div id="fill" class="fill"></div>
+  </div>
+
+  <div id="percent" class="status">0% • boot sequence</div>
+</div>
+
+<script>
+const texts=[
+  'loading encrypted assets...',
+  'syncing neural modules...',
+  'establishing secure channel...',
+  'calibrating core system...',
+  'finalizing boot sequence...'
+];
+
+let t=0,c=0,p=0;
+
+/* typing effect */
+setInterval(()=>{
+  const txt=texts[t];
+  if(c<=txt.length){
+    typing.textContent=txt.slice(0,c++);
+  }else{
+    c=0;
+    t=(t+1)%texts.length;
+  }
+},90);
+
+/* loading bar */
+const load=setInterval(()=>{
+  p++;
+  fill.style.width=p+'%';
+  percent.textContent=p+'% • boot sequence';
+
+  if(p>=100){
+    clearInterval(load);
+    setTimeout(()=>{
+      // nanti arahkan ke access page
+      // location.href='access.html';
+    },900);
+  }
+},70);
+</script>
+
+</body>
+</html>
