@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Main</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:'JetBrains Mono',monospace;
+  background:
+    radial-gradient(circle at 20% 30%, #24003d, transparent 45%),
+    radial-gradient(circle at 80% 70%, #003344, transparent 50%),
+    linear-gradient(120deg,#02010a,#000014,#02010a);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:28px;
+  overflow:hidden;
+}
+
+/* ===== CONTAINER RESPONSIVE ===== */
+.wrapper{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+/* ===== VIDEO PANEL ===== */
+.video-shell{
+  position:relative;
+  width:min(90vw, 360px);   /* RESPONSIVE */
+  aspect-ratio:16/9;
+  border-radius:26px;
+}
+
+/* BASE BORDER */
+.video-border{
+  position:absolute;
+  inset:-3px;
+  border-radius:30px;
+  border:2px solid rgba(0,255,255,.25);
+  pointer-events:none;
+}
+
+/* ===== RPG NEON RUNNER (RAPIH & HALUS) ===== */
+.video-runner{
+  position:absolute;
+  inset:-3px;
+  border-radius:30px;
+  pointer-events:none;
+}
+.video-runner::before{
+  content:"";
+  position:absolute;
+  width:110px;
+  height:3px;
+  background:linear-gradient(90deg,transparent,#00ffff,transparent);
+  filter:drop-shadow(0 0 8px #00ffff);
+  animation:run 5s linear infinite;
+}
+
+@keyframes run{
+  0%   {top:0; left:14px}
+  25%  {top:0; left:calc(100% - 124px)}
+  50%  {top:calc(100% - 3px); left:calc(100% - 124px)}
+  75%  {top:calc(100% - 3px); left:14px}
+  100% {top:0; left:14px}
+}
+
+/* VIDEO BOX */
+.video-box{
+  width:100%;
+  height:100%;
+  border-radius:24px;
+  overflow:hidden;
+  background:#050510;
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.85),
+    inset 0 0 30px rgba(0,255,255,.25);
+}
+
+video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ===== MUSIC BUTTON ===== */
+.music-btn{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:#050510;
+  border:2px solid #00ffff;
+  color:#00ffff;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:
+    0 0 18px rgba(0,255,255,.6),
+    inset 0 0 12px rgba(0,255,255,.4);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 18px rgba(0,255,255,.6)}
+  50%{box-shadow:0 0 30px rgba(0,255,255,1)}
+}
+
+/* ===== DESKTOP TWEAK ===== */
+@media(min-width:768px){
+  body{padding-top:36px}
+  .video-shell{width:380px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+  <div class="video-shell">
+    <div class="video-border"></div>
+    <div class="video-runner"></div>
+
+    <div class="video-box">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="vid.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgm" loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<script>
+const bgm=document.getElementById('bgm');
+let musicOn=false;
+
+/* autoplay musik setelah interaksi pertama (AMAN browser) */
+document.addEventListener('click',()=>{
+  if(!musicOn){
+    bgm.play().catch(()=>{});
+    musicOn=true;
+  }
+},{once:true});
+
+function toggleMusic(){
+  if(!musicOn){
+    bgm.play().catch(()=>{});
+    musicOn=true;
+  }else{
+    bgm.pause();
+    musicOn=false;
+  }
+}
+</script>
+
+</body>
+</html>
