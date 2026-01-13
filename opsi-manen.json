@@ -1,0 +1,14 @@
+[
+  {
+    "email": "support@whatsapp.com",
+    "body": "Hello WhatsApp Support,\n\nMy WhatsApp account number {no} has been permanently banned. I strongly believe this action was taken by mistake.\n\nPlease review my account and help restore access.\n\nThank you."
+  },
+  {
+    "email": "support@whatsapp.com",
+    "body": "Dear WhatsApp Team,\n\nI would like to request a reconsideration regarding the permanent ban on my WhatsApp number {no}.\n\nI have not knowingly violated any policies.\n\nKind regards."
+  },
+  {
+    "email": "support@whatsapp.com",
+    "body": "Hello,\n\nMy WhatsApp account {no} has been permanently disabled. I respectfully request a manual review of my account.\n\nThank you for your time."
+  }
+]

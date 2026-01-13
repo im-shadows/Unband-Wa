@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Unband WhatsApp</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --neon:#00eaff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#05060b;
+  color:#dff;
+  font-family: "Courier New", monospace;
+  min-height:100vh;
+}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 16px;
+}
+.logo{
+  font-size:18px;
+  color:var(--neon);
+  text-shadow:0 0 8px var(--neon);
+  animation:glitch 3s infinite;
+}
+.menu{
+  position:relative;
+}
+.menu button{
+  background:none;
+  border:1px solid var(--neon);
+  color:var(--neon);
+  padding:4px 8px;
+}
+.dropdown{
+  position:absolute;
+  right:0;
+  top:32px;
+  background:#000;
+  border:1px solid var(--neon);
+  display:none;
+  z-index:999;
+}
+.dropdown a{
+  display:block;
+  padding:6px 10px;
+  color:var(--neon);
+  text-decoration:none;
+}
+.menu:hover .dropdown{display:block}
+
+/* PLAYER */
+.player{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:10px 0;
+}
+.player button{
+  border:1px solid var(--neon);
+  background:#000;
+  color:var(--neon);
+  padding:6px 10px;
+}
+
+/* BOX */
+.box{
+  width:90%;
+  max-width:420px;
+  margin:20px auto;
+  padding:16px;
+  border:1px solid var(--neon);
+  box-shadow:0 0 12px var(--neon);
+  position:relative;
+}
+.title{
+  text-align:center;
+  font-size:16px;
+  margin-bottom:10px;
+  color:var(--neon);
+  animation:glitch 2.5s infinite;
+}
+
+/* VIDEO */
+.video-frame{
+  border:1px solid var(--neon);
+  padding:4px;
+}
+video{
+  width:100%;
+  display:block;
+}
+
+/* FORM */
+label{
+  margin-top:10px;
+  display:block;
+}
+input,select{
+  width:100%;
+  padding:6px;
+  background:#000;
+  border:1px solid var(--neon);
+  color:#dff;
+}
+button.send{
+  width:100%;
+  margin-top:14px;
+  padding:8px;
+  border:1px solid var(--neon);
+  background:#000;
+  color:var(--neon);
+}
+#msg{
+  margin-top:8px;
+  color:#ff6;
+  font-size:13px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  font-size:12px;
+  color:#7ad;
+  margin:20px 0;
+}
+
+@keyframes glitch{
+  0%,100%{opacity:1}
+  50%{opacity:.6}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">>_ Unband-WhatsApp</div>
+  <div class="menu">
+    <button>☰</button>
+    <div class="dropdown">
+      <a href="https://wa.me/6283128490718" target="_blank">WhatsApp</a>
+      <a href="https://t.me/cuxxyzhost" target="_blank">Telegram</a>
+    </div>
+  </div>
+</header>
+
+<div class="player">
+  <button onclick="prev()">⏮</button>
+  <button onclick="toggle()">▶ / ⏸</button>
+  <button onclick="next()">⏭</button>
+</div>
+
+<div class="box">
+  <div class="title">ACCESS PANEL</div>
+
+  <div class="video-frame">
+    <video src="vid.mp4" autoplay muted loop playsinline></video>
+  </div>
+
+  <label>>_ no - whatsapp</label>
+  <input id="no" placeholder="628xxxx">
+
+  <label>>_ opsi - band</label>
+  <select id="opsi" onchange="ubahOpsi()">
+    <option value="">-- pilih --</option>
+    <option value="spam">opsi-spam</option>
+    <option value="manen">opsi-manen</option>
+    <option value="hard">opsi-manen-hard</option>
+  </select>
+
+  <label>>_ sub opsi</label>
+  <select id="sub">
+    <option value="">-- pilih sub --</option>
+  </select>
+
+  <button class="send" onclick="kirim()">SEND - BANDING</button>
+  <div id="msg"></div>
+</div>
+
+<footer>
+  © 2026 Unband WhatsApp • By CuxxyzHost
+</footer>
+
+<audio id="music" src="musik.mp3"></audio>
+
+<script>
+const tracks=["musik.mp3","musik2.mp3","musik3.mp3"]
+let i=0
+const audio=document.getElementById("music")
+
+function toggle(){audio.paused?audio.play():audio.pause()}
+function next(){i=(i+1)%tracks.length;audio.src=tracks[i];audio.play()}
+function prev(){i=(i-1+tracks.length)%tracks.length;audio.src=tracks[i];audio.play()}
+
+const subs={
+  spam:["spam-v1","spam-v2","spam-v3"],
+  manen:["manen-v1","manen-v2","manen-v3"],
+  hard:["hard-v1","hard-v2","hard-v3"]
+}
+
+function ubahOpsi(){
+  const o=document.getElementById("opsi").value
+  const s=document.getElementById("sub")
+  s.innerHTML='<option value="">-- pilih sub --</option>'
+  if(!o) return
+  subs[o].forEach((v,i)=>{
+    const op=document.createElement("option")
+    op.value=i
+    op.textContent=v
+    s.appendChild(op)
+  })
+}
+
+function kirim(){
+  const no=noEl.value=noEl?.value||document.getElementById("no").value
+  const o=document.getElementById("opsi").value
+  const s=document.getElementById("sub").value
+  const m=document.getElementById("msg")
+
+  if(!no && !o){m.textContent="lu mau ngapain coba kga pilih❓";return}
+  if(!no){m.textContent="isi no nya napa 🗿";return}
+  if(!o){m.textContent="opsi nya oyy isi";return}
+  if(s===""){m.textContent="sub opsi pilih dulu dong";return}
+
+  fetch(`opsi-${o}.json`).then(r=>r.json()).then(d=>{
+    const mail=d[s].email
+    const body=d[s].body.replace("{no}",no)
+    window.location.href=`mailto:${mail}?body=${encodeURIComponent(body)}`
+  }).catch(()=>m.textContent="opsi tidak di temukan")
+}
+</script>
+
+</body>
+</html>
