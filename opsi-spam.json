@@ -1,0 +1,14 @@
+{
+  "v1": {
+    "email": "support@support.whatsapp.com",
+    "body": "WhatsApp support team,\nMy WhatsApp number {{number}} was blocked due to spam.\nPlease review and restore my account.\nThank you."
+  },
+  "v2": {
+    "email": "support@support.whatsapp.com",
+    "body": "Hello WhatsApp,\nMy account {{number}} has been blocked.\nI believe this is a mistake.\nPlease help restore it."
+  },
+  "v3": {
+    "email": "support@support.whatsapp.com",
+    "body": "Good day WhatsApp Team,\nI would like to appeal the ban on my number {{number}}.\nI did not violate any policy.\nRegards."
+  }
+}

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unband-WA</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cyan:#00ffff;
+  --pink:#ff00ff;
+  --bg:#04040c;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Share Tech Mono',monospace;
+  background:radial-gradient(circle at top,var(--bg),#000);
+  color:#fff;
+  min-height:100vh;
+}
+
+/* BACKGROUND MOTION */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(0,255,255,.08),transparent 40%),
+    radial-gradient(circle at 80% 70%,rgba(255,0,255,.06),transparent 45%);
+  animation:bg 14s linear infinite;
+  z-index:-1;
+}
+@keyframes bg{
+  to{filter:hue-rotate(360deg)}
+}
+
+/* MUSIC PLAYER */
+.music{
+  position:fixed;
+  top:14px;
+  left:14px;
+  display:flex;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:16px;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(6px);
+  border:1.5px solid var(--cyan);
+  box-shadow:0 0 14px rgba(0,255,255,.4);
+  z-index:10;
+}
+.music button{
+  background:none;
+  border:none;
+  color:var(--cyan);
+  font-size:16px;
+  cursor:pointer;
+}
+.music button:hover{
+  color:var(--pink);
+}
+
+/* MAIN BOX */
+.wrapper{
+  max-width:390px;
+  margin:60px auto 40px;
+  padding:20px;
+}
+.neon{
+  position:relative;
+  border-radius:26px;
+}
+.neon::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:28px;
+  background:linear-gradient(90deg,var(--cyan),var(--pink),var(--cyan));
+  background-size:300% 100%;
+  animation:borderRun 5s linear infinite;
+  z-index:-1;
+}
+@keyframes borderRun{
+  to{background-position:300%}
+}
+.panel{
+  background:rgba(5,5,20,.88);
+  backdrop-filter:blur(10px);
+  border-radius:24px;
+  padding:18px;
+}
+
+/* TITLE */
+.title{
+  text-align:center;
+  font-size:20px;
+  color:var(--cyan);
+  text-shadow:
+    0 0 10px rgba(0,255,255,.8),
+    0 0 20px rgba(255,0,255,.4);
+  animation:glitch 3.5s infinite;
+}
+@keyframes glitch{
+  0%,100%{filter:none}
+  45%{filter:blur(.6px) hue-rotate(30deg)}
+  50%{filter:blur(1px)}
+}
+
+/* VIDEO */
+video{
+  width:100%;
+  margin:14px 0;
+  border-radius:16px;
+  box-shadow:0 0 18px rgba(0,255,255,.35);
+}
+
+/* FORM */
+label{
+  display:block;
+  margin-top:14px;
+  color:var(--cyan);
+  opacity:.9;
+}
+input,select{
+  width:100%;
+  margin-top:6px;
+  padding:11px 12px;
+  border-radius:14px;
+  background:rgba(0,0,0,.55);
+  border:1.5px solid rgba(0,255,255,.7);
+  color:#fff;
+  outline:none;
+}
+input:focus,select:focus{
+  border-color:var(--pink);
+  box-shadow:0 0 10px rgba(255,0,255,.5);
+}
+
+/* BUTTON */
+button.send{
+  width:100%;
+  margin-top:18px;
+  padding:13px;
+  border-radius:18px;
+  background:rgba(0,0,0,.6);
+  border:2px solid var(--cyan);
+  color:var(--cyan);
+  cursor:pointer;
+  letter-spacing:.5px;
+  box-shadow:0 0 14px rgba(0,255,255,.4);
+}
+button.send:hover{
+  border-color:var(--pink);
+  color:var(--pink);
+}
+
+/* MESSAGE */
+.msg{
+  text-align:center;
+  margin-top:10px;
+  font-size:13px;
+  color:#ff6666;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  font-size:12px;
+  opacity:.55;
+  margin-bottom:24px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<div class="music">
+  <button onclick="prev()">⏮</button>
+  <button onclick="toggle()" id="pb">▶</button>
+  <button onclick="next()">⏭</button>
+</div>
+<audio id="audio"></audio>
+
+<div class="wrapper neon">
+<div class="panel">
+
+<div class="title">ACCESS PANEL</div>
+
+<video src="vid.mp4" autoplay muted loop playsinline></video>
+
+<label>>_ No - WhatsApp</label>
+<input id="number" placeholder="+62****">
+
+<label>>_ Opsi - Band</label>
+<select id="opsi" onchange="loadSub()">
+  <option value="">-- pilih --</option>
+  <option value="spam">opsi - spam</option>
+  <option value="manen">opsi - manen</option>
+  <option value="hard">opsi - manen - hard</option>
+</select>
+
+<div id="sub"></div>
+
+<button class="send" onclick="send()">send - banding</button>
+<div class="msg" id="msg"></div>
+
+</div>
+</div>
+
+<footer>© Unband-WA • Neon System</footer>
+
+<script>
+/* MUSIC */
+const playlist=["musik.mp3","musik2.mp3","musik3.mp3"];
+let idx=0,play=false;
+const a=document.getElementById("audio");
+const pb=document.getElementById("pb");
+a.src=playlist[idx];
+function toggle(){
+  if(!play){a.play();pb.textContent="⏸"}else{a.pause();pb.textContent="▶"}
+  play=!play;
+}
+function next(){idx=(idx+1)%playlist.length;a.src=playlist[idx];a.play();pb.textContent="⏸";play=true}
+function prev(){idx=(idx-1+playlist.length)%playlist.length;a.src=playlist[idx];a.play();pb.textContent="⏸";play=true}
+
+/* OPTIONS */
+function loadSub(){
+  const o=document.getElementById("opsi").value;
+  document.getElementById("sub").innerHTML=o?`
+  <label>>_ Sub Opsi</label>
+  <select id="subop">
+    <option value="">-- pilih --</option>
+    <option value="v1">${o}-v1</option>
+    <option value="v2">${o}-v2</option>
+    <option value="v3">${o}-v3</option>
+  </select>`:"";
+}
+
+async function send(){
+  const n=document.getElementById("number").value.trim();
+  const o=document.getElementById("opsi").value;
+  const s=document.getElementById("subop")?.value;
+  const m=document.getElementById("msg");
+
+  if(!n && !o) return m.textContent="haduh isi no & pilih opsi bujang";
+  if(!n) return m.textContent="isi nomor dulu deck";
+  if(!s) return m.textContent="isi opsi tuh oyy";
+
+  try{
+    const r=await fetch(`opsi-${o}.json`);
+    const d=await r.json();
+    const data=d[s];
+    const body=encodeURIComponent(data.body.replace("{{number}}",n));
+    location.href=`mailto:${data.email}?body=${body}`;
+  }catch{
+    m.textContent="opsi tidak di temukan";
+  }
+}
+</script>
+
+</body>
+</html>
