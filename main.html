@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Unband-Wa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'JetBrains Mono',monospace;
+  background:#05010f;
+  color:#00ffff;
+  overflow-x:hidden;
+}
+
+/* ==== BACKGROUND PARTICLE ==== */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(0,255,255,.06),transparent 40%),
+    radial-gradient(circle at 80% 70%,rgba(255,0,255,.05),transparent 40%);
+  animation:bgMove 20s linear infinite;
+  z-index:-1;
+}
+@keyframes bgMove{
+  from{background-position:0 0,0 0}
+  to{background-position:400px 200px,-300px -200px}
+}
+
+/* ==== HEADER ==== */
+.header{
+  position:fixed;
+  top:12px;
+  left:16px;
+  font-family:'Orbitron';
+  font-size:18px;
+  animation:glitch 3s infinite;
+}
+@keyframes glitch{
+  0%,100%{text-shadow:0 0 8px #00ffff}
+  30%{text-shadow:2px 0 #ff00ff,-2px 0 #00ffff}
+  60%{text-shadow:-2px 0 #00ffcc,2px 0 #ff0055}
+}
+
+/* ==== MENU ==== */
+.menu{
+  position:fixed;
+  top:10px;
+  right:14px;
+}
+.menu button{
+  background:#02010a;
+  border:2px solid #00ffff;
+  color:#00ffff;
+  font-size:22px;
+  width:44px;height:44px;
+  border-radius:8px;
+  cursor:pointer;
+  box-shadow:0 0 12px #00ffff;
+}
+
+/* ==== MAIN BOX ==== */
+.container{
+  max-width:380px;
+  margin:90px auto 40px;
+  padding:18px;
+  position:relative;
+}
+
+/* ==== NEON BORDER RUNNING ==== */
+.neon-box{
+  position:relative;
+  padding:18px;
+  border-radius:20px;
+  background:#02010a;
+  overflow:hidden;
+}
+.neon-box::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:22px;
+  background:
+    linear-gradient(90deg,transparent,cyan,magenta,transparent);
+  animation:runBorder 3s linear infinite;
+}
+.neon-box::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:18px;
+  background:#02010a;
+}
+@keyframes runBorder{
+  from{background-position:0%}
+  to{background-position:400%}
+}
+.neon-content{position:relative;z-index:1}
+
+/* ==== TITLE ==== */
+.title{
+  font-family:'Orbitron';
+  text-align:center;
+  font-size:20px;
+  margin-bottom:10px;
+  animation:flicker 2.5s infinite;
+}
+@keyframes flicker{
+  0%,100%{text-shadow:0 0 10px #00ffff}
+  50%{text-shadow:0 0 20px #ff00ff}
+}
+
+/* ==== VIDEO ==== */
+.video-wrap{
+  margin:10px auto;
+  border-radius:14px;
+  overflow:hidden;
+}
+video{
+  width:100%;
+  display:block;
+}
+
+/* ==== MUSIC ==== */
+.music-btn{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:54px;height:54px;
+  border-radius:50%;
+  background:#02010a;
+  border:2px solid #00ffff;
+  color:#00ffff;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 0 18px #00ffff;
+}
+
+/* ==== FORM ==== */
+label{
+  display:block;
+  margin-top:14px;
+  font-family:'Orbitron';
+}
+input,select{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  background:#000;
+  border:2px solid #00ffff;
+  color:#00ffff;
+  border-radius:8px;
+}
+button.send{
+  margin-top:16px;
+  width:100%;
+  padding:10px;
+  font-family:'Orbitron';
+  background:#000;
+  border:2px solid #00ffff;
+  color:#00ffff;
+  border-radius:10px;
+  cursor:pointer;
+  box-shadow:0 0 15px #00ffff;
+}
+#error{
+  margin-top:10px;
+  color:#ff4444;
+  text-align:center;
+  font-size:13px;
+}
+
+/* ==== FOOTER ==== */
+footer{
+  text-align:center;
+  font-size:12px;
+  opacity:.7;
+  margin-top:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">#_ Unband-Wa</div>
+
+<div class="menu">
+  <button onclick="alert('Contact via WA / Telegram')">☰</button>
+</div>
+
+<div class="container">
+  <div class="neon-box">
+    <div class="neon-content">
+
+      <div class="title">ACCESS UNBAND</div>
+
+      <div class="video-wrap">
+        <video autoplay muted loop playsinline>
+          <source src="vid.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <label>>_ No - Whatsapp</label>
+      <input id="number" placeholder="+62xxxx">
+
+      <label>>_ Opsi - Band</label>
+      <select id="mainOpt" onchange="updateSub()">
+        <option value="">Pilih</option>
+        <option value="spam">Opsi - Spam</option>
+        <option value="manen">Opsi - Manen</option>
+        <option value="hard">Opsi - Manen - Hard</option>
+      </select>
+
+      <select id="subOpt"></select>
+
+      <button class="send" onclick="send()">Send - Banding</button>
+      <div id="error"></div>
+
+      <footer>© 2026 Unband-Wa | Support By CuxxyzHost</footer>
+
+    </div>
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<script>
+const DATA={
+ "spam-1":{email:"support@support.whatsapp.com",body:"Spam appeal {{number}}"},
+ "spam-2":{email:"support@support.whatsapp.com",body:"Spam appeal {{number}}"},
+ "spam-3":{email:"support@support.whatsapp.com",body:"Spam appeal {{number}}"},
+ "manen-1":{email:"support@support.whatsapp.com",body:"Permanent ban {{number}}"},
+ "manen-2":{email:"support@support.whatsapp.com",body:"Permanent ban {{number}}"},
+ "manen-3":{email:"support@support.whatsapp.com",body:"Permanent ban {{number}}"},
+ "manen-4":{email:"support@support.whatsapp.com",body:"Permanent ban {{number}}"},
+ "hard-1":{email:"support@support.whatsapp.com",body:"Hard ban {{number}}"},
+ "hard-2":{email:"support@support.whatsapp.com",body:"Hard ban {{number}}"},
+ "hard-3":{email:"support@support.whatsapp.com",body:"Hard ban {{number}}"},
+ "hard-4":{email:"support@support.whatsapp.com",body:"Hard ban {{number}}"}
+};
+
+function updateSub(){
+ const m=mainOpt.value, s=subOpt; s.innerHTML="";
+ if(!m)return;
+ const c=m==="spam"?3:4;
+ for(let i=1;i<=c;i++){
+  let o=document.createElement("option");
+  o.value=`${m}-${i}`; o.text=`${m} - ${i}`;
+  s.appendChild(o);
+ }
+}
+
+function send(){
+ const num=number.value.trim(), sub=subOpt.value;
+ if(!num&&!sub)return error.textContent="haduh isi no & pilih opsi bujang";
+ if(!num)return error.textContent="isi nomor dulu deck";
+ if(!sub)return error.textContent="isi opsi tuh oyy";
+ const d=DATA[sub];
+ if(!d)return error.textContent="opsi tidak ditemukan";
+ const body=d.body.replace("{{number}}",num);
+ location.href=`mailto:${d.email}?subject=Banding WhatsApp&body=${encodeURIComponent(body)}`;
+}
+
+let on=false;
+function toggleMusic(){
+ const m=document.getElementById("music");
+ on?m.pause():m.play();
+ on=!on;
+}
+</script>
+
+</body>
+</html>
