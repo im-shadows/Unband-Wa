@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Unband-Wa Banding</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+body{margin:0;padding:0;font-family:'JetBrains Mono',monospace;background:#000014;overflow-x:hidden;position:relative;}
+canvas#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
+
+/* Judul kiri atas */
+.title-top{position:fixed; top:10px; left:16px; font-family:'Orbitron',sans-serif; font-weight:700; font-size:18px; text-shadow:0 0 8px #00ffff,0 0 16px #00ffff; animation:neonFlicker 2.5s infinite; z-index:10;}
+@keyframes neonFlicker{0%,100%{opacity:1;color:#00ffff}25%{opacity:.6;color:#ff00ff}50%{opacity:1;color:#00ff00}75%{opacity:.7;color:#ff0055}}
+
+/* Wrapper video */
+.wrapper{display:flex; justify-content:center; margin-top:60px; position:relative; z-index:1;}
+.video-shell{position:relative; width:min(90vw,360px); aspect-ratio:16/9; border-radius:26px;}
+.video-box{width:100%; height:100%; border-radius:26px; overflow:hidden; background:#050510; box-shadow:0 18px 45px rgba(0,0,0,.85), inset 0 0 30px rgba(0,255,255,.18);}
+video{width:100%; height:100%; object-fit:cover; display:block;}
+.neon-border{position:absolute; inset:0; border-radius:26px; pointer-events:none; border:2px solid #00ffff; box-shadow:0 0 10px #00ffff,0 0 20px #00ffff,0 0 35px #00ffff; animation:neonPulse 2.8s ease-in-out infinite;}
+@keyframes neonPulse{0%,100%{box-shadow:0 0 6px #00ffff,0 0 14px #00ffff;opacity:.8}50%{box-shadow:0 0 14px #ff00ff,0 0 30px #ff00ff,0 0 45px #ff00ff;opacity:1}}
+
+/* Music Button */
+.music-btn{position:fixed; right:18px; bottom:18px; width:54px; height:54px; border-radius:50%; background:#050510; border:2px solid #00ffff; color:#00ffff; font-size:20px; cursor:pointer; box-shadow:0 0 18px rgba(0,255,255,.6), inset 0 0 12px rgba(0,255,255,.4); animation:pulseBtn 2s infinite; z-index:10;}
+@keyframes pulseBtn{0%,100%{box-shadow:0 0 18px rgba(0,255,255,.6)}50%{box-shadow:0 0 30px rgba(0,255,255,1)}}
+
+/* Menu garis 3 */
+.menu-btn{position:fixed; top:12px; right:16px; width:42px; height:42px; background:#050510; border:2px solid #00ffff; border-radius:6px; cursor:pointer; display:flex; justify-content:center; align-items:center; color:#00ffff; font-size:26px; box-shadow:0 0 12px #00ffff,inset 0 0 6px #00ffff; animation:pulse 2s infinite; z-index:10;}
+.dropdown{position:fixed; top:60px; right:16px; background:#050510; border:2px solid #00ffff; border-radius:10px; padding:12px; display:none; flex-direction:column; gap:10px; z-index:10; box-shadow:0 0 20px #00ffff;}
+.btn-item{background:#02010a; border:2px solid #00ffff; color:#00ffff; padding:6px 12px; border-radius:6px; cursor:pointer; text-align:center; font-family:'Orbitron',sans-serif; text-shadow:0 0 8px #00ffff,0 0 16px #00ffff; animation:btnNeon 2s infinite;}
+@keyframes btnNeon{0%,100%{box-shadow:0 0 6px #00ffff}50%{box-shadow:0 0 20px #ff00ff,0 0 30px #ff00ff}}
+
+/* Text typing bawah video */
+.typing-text{text-align:center; margin-top:12px; font-family:'Orbitron',sans-serif; font-size:14px; min-height:20px; color:#00ffff;}
+
+/* Form container */
+.form-container{max-width:360px; margin:20px auto; background:#02010a; border:2px solid #00ffff; border-radius:14px; padding:12px; box-shadow:0 0 20px #00ffff, inset 0 0 12px #00ffff; position:relative; z-index:1;}
+.label-polished{font-family:'Orbitron',sans-serif; font-weight:700; font-size:16px; color:#00ffff; text-shadow:0 0 6px #00ffff,0 0 12px #00ffff; animation:neonLabel 2.5s infinite, glitch 3s infinite; margin-top:8px; display:block;}
+@keyframes neonLabel{0%,100%{color:#00ffff;text-shadow:0 0 6px #00ffff,0 0 12px #00ffff}25%{color:#ff00ff;text-shadow:0 0 8px #ff00ff,0 0 16px #ff00ff}50%{color:#00ff00;text-shadow:0 0 8px #00ff00,0 0 16px #00ff00}75%{color:#ff0055;text-shadow:0 0 8px #ff0055,0 0 16px #ff0055}}
+@keyframes glitch{0%{text-shadow:2px 0 #00ffff,-2px 2px #ff00ff;}20%{text-shadow:-2px 0 #ff0055,2px -2px #00ff00;}40%{text-shadow:2px 2 #ff00ff,-2px -2px #00ffff;}60%{text-shadow:-2px 2 #00ff00,2px -2 #ff00ff;}80%{text-shadow:2px -2 #ff00ff,-2px 2 #00ffff;}100%{text-shadow:2px 0 #00ffff,-2px 2px #ff00ff;}}
+
+.rpg-box{border:2px solid #00ffff;border-radius:8px;padding:6px 10px;margin:6px 0;color:#00ffff;background:#02010a;box-shadow:0 0 10px #00ffff, inset 0 0 6px #00ffff;font-family:'JetBrains Mono',monospace;}
+.rpg-select{width:100%; padding:6px;border-radius:6px;border:2px solid #00ffff;background:#02010a;color:#00ffff;font-family:'JetBrains Mono',monospace;box-shadow:0 0 10px #00ffff, inset 0 0 6px #00ffff;margin-bottom:10px;}
+.send-btn{background:#02010a;border:2px solid #00ffff;border-radius:6px;padding:8px 12px;color:#00ffff;font-family:'Orbitron',sans-serif;cursor:pointer;text-shadow:0 0 6px #00ffff,0 0 12px #00ffff;animation:btnNeon 2s infinite;}
+.error-msg{font-size:12px;color:#ff3333;margin-top:6px;text-align:center;}
+.footer{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#00ffff;margin:12px 0 24px 0;text-shadow:0 0 6px #00ffff,0 0 12px #00ffff;animation:neonFooter 3s infinite;}
+@keyframes neonFooter{0%,100%{color:#00ffff}25%{color:#ff00ff}50%{color:#00ff00}75%{color:#ff0055}}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="title-top">#_ Unband-Wa</div>
+
+<div class="menu-btn" onclick="toggleDropdown()">☰</div>
+<div class="dropdown" id="menuDropdown">
+  <div class="btn-item" onclick="toggleContact()">Contact Admin</div>
+  <div class="icon-row" id="contactIcons" style="display:none; flex-direction: row; gap:6px; margin-top:4px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" onclick="window.open('https://wa.me/6283128490718','_blank')" style="width:32px;height:32px;cursor:pointer;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" onclick="window.open('https://t.me/cuxxyzhost','_blank')" style="width:32px;height:32px;cursor:pointer;">
+  </div>
+</div>
+
+<div class="wrapper">
+  <div class="video-shell">
+    <div class="video-box">
+      <video id="vid" autoplay muted loop playsinline preload="auto">
+        <source src="vid.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="neon-border"></div>
+  </div>
+</div>
+
+<button class="music-btn" id="musicBtn">🎵</button>
+
+<div class="typing-text" id="typingText"></div>
+
+<div class="form-container">
+  <span class="label-polished">&gt;_ No - Whatsapp</span>
+  <input class="rpg-box" type="text" id="waNumber" placeholder="+62****">
+
+  <span class="label-polished">&gt;_ Opsi - Band</span>
+  <select class="rpg-select" id="bandOption" onchange="updateSubOption()">
+    <option value="">Pilih opsi</option>
+    <option value="spam">Opsi - Spam</option>
+    <option value="manen">Opsi - Manen</option>
+    <option value="manen-hard">Opsi - Hard</option>
+  </select>
+
+  <select class="rpg-select" id="subOption">
+    <option value="">Sub opsi akan muncul disini</option>
+  </select>
+
+  <button class="send-btn" onclick="sendBanding()">Send - Banding</button>
+  <div class="error-msg" id="errorMsg"></div>
+</div>
+
+<div class="footer">© 2026 Unband-Wa | Support by CuxXYZ</div>
+
+<audio id="bgm" loop preload="auto">
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* PARTICLES */
+const canvas=document.getElementById('bgCanvas');const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+let particles=[];for(let i=0;i<80;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.2,dy:(Math.random()-0.5)*0.2});}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,255,255,0.2)';ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x>canvas.width)p.x=0;if(p.x<0)p.x=canvas.width;if(p.y>canvas.height)p.y=0;if(p.y<0)p.y=canvas.height;});requestAnimationFrame(draw);}
+draw(); window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+
+/* MUSIC */
+const bgm=document.getElementById('bgm'); let musicOn=false;
+document.getElementById('musicBtn').addEventListener('click',()=>{
+  if(!musicOn){bgm.currentTime=0; bgm.play().catch(()=>{}); musicOn=true;}
+  else{bgm.pause(); musicOn=false;}
+});
+
+/* Dropdown */
+const dropdown=document.getElementById('menuDropdown');
+function toggleDropdown(){dropdown.style.display=(dropdown.style.display==='flex')?'none':'flex'; dropdown.style.flexDirection='column';}
+function toggleContact(){const c=document.getElementById('contactIcons');c.style.display=(c.style.display==='flex')?'none':'flex';}
+
+/* Typing Text Effect */
+const texts=["unband-Wa","mt 2026","help wa"];
+let index=0, charIndex=0;
+const typingText=document.getElementById('typingText');
+function type(){if(charIndex<texts[index].length){typingText.textContent+=texts[index][charIndex];charIndex++;setTimeout(type,150);}else{setTimeout(erase,1000);}}
+function erase(){if(charIndex>0){typingText.textContent=texts[index].substring(0,charIndex-1);charIndex--;setTimeout(erase,100);}else{index=(index+1)%texts.length;setTimeout(type,500);}}
+type();
+
+/* Update Sub Option */
+function updateSubOption(){
+  const band=document.getElementById('bandOption').value;
+  const sub=document.getElementById('subOption');
+  sub.innerHTML="";
+  if(band==="spam"){
+    ["spam-1","spam-2","spam-3"].forEach(o=>{let e=document.createElement('option'); e.value=o; e.text=o.replace('-',' - '); sub.add(e);});
+  } else if(band==="manen"){
+    ["manen-1","manen-2","manen-3","manen-4"].forEach(o=>{let e=document.createElement('option'); e.value=o; e.text=o.replace('-',' - '); sub.add(e);});
+  } else if(band==="manen-hard"){
+    ["hard-1","hard-2","hard-3","hard-4"].forEach(o=>{let e=document.createElement('option'); e.value=o; e.text=o.replace('-',' - '); sub.add(e);});
+  } else {let e=document.createElement('option'); e.value=""; e.text="Sub opsi akan muncul disini"; sub.add(e);}
+}
+
+/* Send Banding - fetch template dari file HTML */
+function sendBanding(){
+  const wa=document.getElementById('waNumber').value.trim();
+  const sub=document.getElementById('subOption').value;
+  const err=document.getElementById('errorMsg');
+  if(!wa){err.textContent="Isi nomor dulu deck"; return;}
+  if(!sub){err.textContent="Pilih sub opsi dulu oyy"; return;}
+  err.textContent="";
+
+  let fileName="";
+  if(sub.startsWith("spam")) fileName="opsispam.html";
+  else if(sub.startsWith("manen")) fileName="opsimanen.html";
+  else if(sub.startsWith("hard")) fileName="opsihard.html";
+  else {alert("Template tidak ditemukan"); return;}
+
+  fetch(fileName).then(res=>res.text()).then(data=>{
+    let regex=/const\s+\w+Templates\s*=\s*(\{[\s\S]*?\});/;
+    const match=data.match(regex);
+    if(!match){alert('Template tidak ditemukan'); return;}
+    const templates=eval('('+match[1]+')');
+    const template=templates[sub];
+    if(!template){alert('Template tidak ditemukan'); return;}
+    const email=template.email;
+    const subject=template.subject;
+    const body=template.body.replace('{{number}}',wa);
+    window.location.href=`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }).catch(err=>{
+    alert("Gagal fetch template. Pastikan file berada di server / GitHub Pages: "+err);
+  });
+}
+
+/* Auto-play video & music on page load */
+window.addEventListener('load', ()=>{
+  const vid=document.getElementById('vid');
+  vid.play().catch(()=>{});
+  bgm.play().catch(()=>{});
+});
+</script>
+</body>
+</html>
