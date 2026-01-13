@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Unband WhatsApp</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#050b1f;
+  font-family:Poppins;
+  color:#cfe7ff;
+  overflow-x:hidden;
+}
+
+/* ================= HEADER ================= */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 20px;
+  position:relative;
+  z-index:50;
+}
+.title-left{
+  font-family:Orbitron;
+  font-size:20px;
+  color:#4fc3ff;
+  animation:glitch 2s infinite, float 4s ease-in-out infinite;
+}
+@keyframes glitch{
+  0%{text-shadow:2px 0 #0ff}
+  50%{text-shadow:-2px 0 #00f}
+  100%{text-shadow:2px 0 #0ff}
+}
+@keyframes float{
+  50%{transform:translateY(-4px)}
+}
+
+/* ================= MENU ================= */
+.menu-btn{
+  font-size:22px;
+  cursor:pointer;
+}
+.menu{
+  position:absolute;
+  top:60px;
+  right:20px;
+  background:#081636;
+  border:1px solid #1e88e5;
+  padding:10px 14px;
+  display:none;
+  z-index:999;
+}
+.menu a{
+  display:block;
+  color:#8fd3ff;
+  text-decoration:none;
+  margin:8px 0;
+}
+
+/* ================= MUSIC ================= */
+.music-box{
+  display:flex;
+  justify-content:center;
+  margin:10px 0 20px;
+}
+.music{
+  display:flex;
+  gap:14px;
+  background:#081636;
+  padding:10px 18px;
+  border-radius:40px;
+  border:1px solid #1e88e5;
+}
+.music button{
+  background:none;
+  border:none;
+  color:#4fc3ff;
+  font-size:18px;
+  cursor:pointer;
+}
+.music button.active{
+  color:#00e5ff;
+  text-shadow:0 0 8px #00e5ff;
+}
+
+/* ================= VIDEO BOX ================= */
+.video-wrapper{
+  width:92%;
+  max-width:420px;
+  margin:0 auto 25px;
+  padding:10px;
+  border-radius:14px;
+  background:linear-gradient(120deg,#081636,#050b1f,#081636);
+  background-size:300% 300%;
+  animation:neonMove 6s linear infinite;
+  border:1px solid #1e88e5;
+}
+@keyframes neonMove{
+  0%{background-position:0% 50%}
+  100%{background-position:100% 50%}
+}
+.video-wrapper video{
+  width:100%;
+  border-radius:10px;
+  display:block;
+}
+
+/* ================= FORM BOX ================= */
+.box{
+  width:92%;
+  max-width:420px;
+  margin:20px auto;
+  padding:20px;
+  border-radius:14px;
+  border:1px solid #1e88e5;
+  background:linear-gradient(120deg,#050b1f,#081636,#050b1f);
+  background-size:400% 400%;
+  animation:borderGlow 7s linear infinite;
+}
+@keyframes borderGlow{
+  0%{background-position:0% 50%}
+  100%{background-position:100% 50%}
+}
+.box h2{
+  text-align:center;
+  font-family:Orbitron;
+  margin-bottom:15px;
+  animation:glitch 3s infinite;
+}
+
+input,select,button{
+  width:100%;
+  padding:11px;
+  margin-top:12px;
+  background:#050b1f;
+  border:1px solid #1e88e5;
+  color:#cfe7ff;
+  border-radius:8px;
+  position:relative;
+  z-index:5;
+}
+
+button.send{
+  margin-top:18px;
+  cursor:pointer;
+  color:#4fc3ff;
+  border:1px solid #00e5ff;
+  background:#050b1f;
+  animation:glowBtn 2.5s infinite;
+}
+@keyframes glowBtn{
+  50%{box-shadow:0 0 12px #00e5ff}
+}
+
+.error{
+  margin-top:12px;
+  color:#ff8a80;
+  text-align:center;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+  text-align:center;
+  opacity:.6;
+  margin:25px 0;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="title-left">&gt;_ Unband-WhatsApp</div>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <div class="menu" id="menu">
+    <a href="https://wa.me/6283128490718">WhatsApp</a>
+    <a href="https://t.me/cuxxyzhost">Telegram</a>
+  </div>
+</div>
+
+<!-- MUSIC -->
+<div class="music-box">
+  <div class="music">
+    <button onclick="prev()">⏮</button>
+    <button id="playBtn" onclick="playPause()">▶</button>
+    <button onclick="next()">⏭</button>
+  </div>
+</div>
+
+<!-- VIDEO -->
+<div class="video-wrapper">
+  <video src="video.mp4"
+         autoplay
+         loop
+         muted
+         playsinline
+         preload="auto">
+  </video>
+</div>
+
+<!-- FORM -->
+<div class="box">
+  <h2>UNBAND CENTER</h2>
+
+  <input id="no" placeholder="Nomor WhatsApp">
+
+  <select id="opsi" onchange="loadSub()">
+    <option value="">Pilih Opsi</option>
+    <option value="spam">Opsi Spam</option>
+    <option value="manen">Opsi Manen</option>
+    <option value="hard">Opsi Manen Hard</option>
+  </select>
+
+  <select id="sub" style="display:none">
+    <option value="">Pilih Sub Opsi</option>
+  </select>
+
+  <button class="send" onclick="send()">SEND BANDING</button>
+  <div class="error" id="msg"></div>
+</div>
+
+<div class="footer">
+  © Web Unband • All Rights Reserved • By CuxxyzHost
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+/* MENU */
+function toggleMenu(){
+  menu.style.display = menu.style.display==="block"?"none":"block";
+}
+
+/* MUSIC */
+let tracks=["musik.mp3","musik2.mp3","musik3.mp3"];
+let i=0,play=false;
+const audio=document.getElementById("audio");
+const playBtn=document.getElementById("playBtn");
+
+function playPause(){
+  if(!play){
+    audio.src=tracks[i];
+    audio.play();
+    play=true;
+    playBtn.textContent="⏸";
+    playBtn.classList.add("active");
+  }else{
+    audio.pause();
+    play=false;
+    playBtn.textContent="▶";
+    playBtn.classList.remove("active");
+  }
+}
+function next(){i=(i+1)%tracks.length;audio.src=tracks[i];audio.play()}
+function prev(){i=(i-1+tracks.length)%tracks.length;audio.src=tracks[i];audio.play()}
+
+/* OPSI */
+function loadSub(){
+  sub.style.display="block";
+  sub.innerHTML='<option value="">Pilih Sub Opsi</option>';
+  if(opsi.value==="spam")["spam-v1","spam-v2","spam-v3"].forEach(x=>sub.innerHTML+=`<option>${x}</option>`);
+  if(opsi.value==="manen")["manen-v1","manen-v2","manen-v3"].forEach(x=>sub.innerHTML+=`<option>${x}</option>`);
+  if(opsi.value==="hard")["hard-v1","hard-v2","hard-v3"].forEach(x=>sub.innerHTML+=`<option>${x}</option>`);
+}
+
+/* SEND */
+function send(){
+  if(!no.value && !opsi.value && !sub.value) return msg.innerText="trus mau ngapain njir ga di isi semua 🗿";
+  if(!no.value) return msg.innerText="isi no nya bujang ‼️";
+  if(!opsi.value) return msg.innerText="isi lah opsi nya njir 🗿";
+  if(!sub.value) return msg.innerText="sub opsi pilih dulu dong";
+  window.open("https://mail.google.com");
+}
+</script>
+
+</body>
+</html>
